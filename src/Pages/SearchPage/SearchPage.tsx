@@ -23,20 +23,21 @@ const SearchPage = (props: Props) => {
         setServerError(result);
         console.log("Server Error:", result);}
        else if (Array.isArray(result.data)) {
-        await setSearchResult(result.data);
+        await setSearchResult(result.data)
+        console.log(result)
       }
     };
-    useEffect( () => {
-      console.log(searchResult)
-    }, [searchResult]);
+    // useEffect( () => {
+    //   console.log()
+    // }, [searchResult]);
   
     const handleChange = (e : ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value)
         console.log(search)
     }
-    useEffect(() => {
-      console.log(search)
-    },[search])
+    // useEffect(() => {
+    //   console.log()
+    // },[search])
     const onPortfolioCreate = (e: any) => {
       e.preventDefault();
       const exists = portfolioValues.find((value) => value === e.target[0].value)
