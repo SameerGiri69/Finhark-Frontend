@@ -18,13 +18,21 @@ const Sidebar = (props: Props) => {
 
       <div className="md:flex-col md:min-w-full flex flex-col list-none">
 
-        <Link className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline  " to={"Company Profile"}>
+        <Link className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline  " to={"company-profile"}>
           <FaHome/>
           <h6 className='ml-3 ' >Company Profile </h6>
         </Link>
         <Link className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline  " to={'income-statement'}>
           <FaHome/>
           <h6 className='ml-3 ' >Income Statement </h6>
+        </Link>
+        <Link className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline  " to={'balance-sheet'}>
+          <FaHome/>
+          <h6 className='ml-3 ' >Balance Sheet</h6>
+        </Link>
+        <Link className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline  " to={'cashflow-statement'}>
+          <FaHome/>
+          <h6 className='ml-3 ' >CashFlow Statement</h6>
         </Link>
       </div>
     </div>
