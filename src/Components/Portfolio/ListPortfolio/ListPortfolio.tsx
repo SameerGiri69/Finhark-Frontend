@@ -1,14 +1,13 @@
-import React, { SyntheticEvent } from 'react'
-import CardPortfolio from '../CardPortfolio/CardPortfolio'
-import {v4 as uuidv4} from "uuid";
+import React, { SyntheticEvent } from "react";
+import CardPortfolio from "../CardPortfolio/CardPortfolio";
+import { v4 as uuidv4 } from "uuid";
 
-
-interface Props  {
-    portfolioValues : string[]
-    onPortfolioDelete : (e: SyntheticEvent) => void;
+interface Props {
+  portfolioValues: string[];
+  onPortfolioDelete: (e: SyntheticEvent) => void;
 }
 
-const ListPortfolio = ({portfolioValues, onPortfolioDelete}: Props) => {
+const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
   return (
     <section id="portfolio">
       <h2 className="mb-3 mt-3 text-3xl font-semibold text-center md:text-4xl">
@@ -19,7 +18,8 @@ const ListPortfolio = ({portfolioValues, onPortfolioDelete}: Props) => {
           {portfolioValues.length > 0 ? (
             portfolioValues.map((portfolioValue) => {
               return (
-                <CardPortfolio  key={uuidv4()}
+                <CardPortfolio
+                  key={uuidv4()}
                   portfolioValue={portfolioValue}
                   onPortfolioDelete={onPortfolioDelete}
                 />
@@ -34,6 +34,6 @@ const ListPortfolio = ({portfolioValues, onPortfolioDelete}: Props) => {
       </div>
     </section>
   );
-}
+};
 
-export default ListPortfolio
+export default ListPortfolio;
