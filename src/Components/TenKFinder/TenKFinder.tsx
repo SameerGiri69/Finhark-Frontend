@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { CompanyTenK } from "../../../company";
 import { getTenK } from "../../api";
-import { useOutletContext } from "react-router";
+import { useOutletContext, useParams } from "react-router";
 import Spinner from "../Spinner/Spinner";
 import TenKFinderItem from "../TenKFinderItem/TenKFinderItem";
 type Props = {
@@ -10,12 +10,13 @@ type Props = {
 
 const TenKFinder = (props: Props) => {
   const [companyData, setCompanyData] = useState<CompanyTenK[]>();
-  const ticker = useOutletContext<string>();
-
+  const { ticker } = useParams<string>();
+  
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getTenK(ticker);
+      const result = await getTenK(ticker!);
       setCompanyData(result?.data);
+      console.log(result?.data);
     };
     fetchData();
   }, [ticker]);
