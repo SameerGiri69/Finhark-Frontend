@@ -1,15 +1,17 @@
-import { Toast, ToastContainer } from 'react-toastify/dist/components';
-import NavBar from './NavBar/NavBar';
-import { Outlet } from 'react-router';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import NavBar from "./NavBar/NavBar";
+import { Outlet } from "react-router";
+import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./Context/useAuth";
 
 function App() {
-  
   return (
     <>
-    <NavBar/>
-    <Outlet/>
-    <ToastContainer/>
+      <UserProvider>
+        <NavBar />
+        <Outlet />
+        <ToastContainer />
+      </UserProvider>
     </>
   );
 }
