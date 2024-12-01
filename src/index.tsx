@@ -1,20 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import "./index.css"
-import { RouterProvider } from 'react-router-dom';
-import { router } from './Routes/Routes';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./Routes/Routes";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
-// console.log(searchCompanies("tsla"))
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}   future={{
-    v7_startTransition: true
-  }} />
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
   </React.StrictMode>
 );
 

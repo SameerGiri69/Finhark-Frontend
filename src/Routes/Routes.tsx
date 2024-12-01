@@ -10,25 +10,41 @@ import DesignPage from "../Pages/DesiginPage/DesignPage";
 import BalanceSheet from "../Components/BalanceSheet/BalanceSheet";
 import CashFlow from "../Components/CashFlowStatement/CashFlow";
 import LoginPage from "../Pages/LoginPage/LoginPage";
-
+import RegisterPage from "../Pages/RegisterPage/RegisterPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
-    {
-        path:"/",
-        element: <App/>,
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { path: "", element: <HomePage /> },
+      { path: "login", element:  <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
+      {
+        path: "search",
+        element: (
+          <ProtectedRoute>
+            {" "}
+            <SearchPage />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "design-guide", element: <DesignPage /> },
+      {
+        path: "company/:ticker",
+        element: (
+          <ProtectedRoute>
+            <CompanyPage />
+          </ProtectedRoute>
+        ),
         children: [
-            {path: "", element:<HomePage/> },
-            {path: "login", element:<LoginPage/> },
-            {path: "search", element:<SearchPage/> },
-            {path: "design-guide", element:<DesignPage/> },
-            {path: "company/:ticker",
-                 element:<CompanyPage/>, 
-                 children:[
-                 {path: "company-profile", element:<CompanyProfile/> },
-                 {path: "income-statement", element:<IncomeStatement /> },
-                 {path: "balance-sheet", element:<BalanceSheet/> },
-                 {path: "cashflow-statement", element:<CashFlow/> }] }
-
-        ]
-    }
-])
+          { path: "company-profile", element: <CompanyProfile /> },
+          { path: "income-statement", element: <IncomeStatement /> },
+          { path: "balance-sheet", element: <BalanceSheet /> },
+          { path: "cashflow-statement", element: <CashFlow /> },
+        ],
+      },
+    ],
+  },
+]);

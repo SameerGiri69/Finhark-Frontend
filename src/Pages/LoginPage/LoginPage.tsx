@@ -40,7 +40,7 @@ const LoginPage = (props: Props) => {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow border md:mb-20 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
             <form
@@ -50,7 +50,7 @@ const LoginPage = (props: Props) => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Email
                 </label>
@@ -62,7 +62,7 @@ const LoginPage = (props: Props) => {
                   {...register("email")}
                 />
                 {errors.email ? (
-                  <p className="text-white">{errors.email.message}</p>
+                  <p className="text-gray-900">{errors.email.message}</p>
                 ) : (
                   ""
                 )}
@@ -70,7 +70,7 @@ const LoginPage = (props: Props) => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Password
                 </label>
@@ -90,14 +90,14 @@ const LoginPage = (props: Props) => {
               <div className="flex items-center justify-between">
                 <a
                   href="#"
-                  className="text-sm text-white font-medium text-primary-600 hover:underline text-primary-500"
+                  className="text-sm text-gray-900 font-medium text-primary-600 hover:underline text-primary-500"
                 >
                   Forgot password?
                 </a>
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-lightGreen hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800"
+                className="w-full text-white bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800"
               >
                 Sign in
               </button>
