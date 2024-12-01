@@ -10,17 +10,18 @@ import axios from "axios";
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
-  registerUser: (email: string, username: string, password: string) => void;
+  registerUser: (email: string, password: string, userName : string) => void;
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
 };
 
+//userContext holds the data of UserProfile
 const UserContext = React.createContext<UserContextType>({} as UserContextType);
-// const UserContext = createContext<UserProfile>({} as UserContextType);
 
 type Props = { children: React.ReactNode };
 
+// children holds all the pages that is being passed in from app.tsx
 export const UserProvider = ({ children }: Props) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
@@ -28,22 +29,22 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    debugger;
+    //initialized user and token for api calls
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if (user && token) {
+    if (user && token && Object.keys(JSON.parse(user)).length !== 0) {
       setUser(JSON.parse(user));
       setToken(token);
+      // attached token to the header of  every api call we make
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
     setIsReady(true);
   }, []);
 
-  const registerUser = async (
-    email: string,
-    username: string,
-    password: string
-  ) => {
-    await registerAPI(email, username, password)
+  const registerUser = async (email: string, password: string, userName : string) => {
+    await registerAPI(email, password, userName)
+      //res is the response object returned by registerAPI
       .then((res) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
@@ -62,7 +63,6 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const loginUser = async (email: string, password: string) => {
-    debugger;
     await loginAPI(email, password)
       .then((res) => {
         if (res) {
@@ -82,6 +82,7 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const isLoggedIn = () => {
+    debugger;
     return !!user;
   };
   const logout = () => {
@@ -92,13 +93,20 @@ export const UserProvider = ({ children }: Props) => {
     navigate("/");
   };
 
+  //UserContext holds the type defined in UserProfile
   return (
+    //usercontext.provider "provides" the value to all the components
     <UserContext.Provider
+      //this sets the values defined indside type UserProfile
       value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
     >
+      {/* children are being passed in from app.tsx */}
+      {/* passing value props from UserContext.Provider allows all the components inside the component tree
+      to access the values */}
       {isReady ? children : null}
     </UserContext.Provider>
   );
 };
-
+//useAuth will allow to access the values anywhere
+//useContext below is "destructuring" the data that UserContext initially was set with (ie UserContextType on top of this file)
 export const useAuth = () => React.useContext(UserContext);
