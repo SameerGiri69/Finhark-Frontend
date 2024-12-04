@@ -3,14 +3,14 @@ import { UserProfile } from "../Models/User";
 import { useNavigate } from "react-router";
 import React, { useEffect, useState } from "react";
 import { setSourceMapRange } from "typescript";
-import { loginAPI, registerAPI } from "../Services/AuthService";
+import { loginAPI, logOutAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
-  registerUser: (email: string, password: string, userName : string) => void;
+  registerUser: (email: string, password: string, userName: string) => void;
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -29,7 +29,6 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    debugger;
     //initialized user and token for api calls
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -37,12 +36,17 @@ export const UserProvider = ({ children }: Props) => {
       setUser(JSON.parse(user));
       setToken(token);
       // attached token to the header of  every api call we make
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.defaults.headers.common["Cookie"] = ".AspNetCore.Cookies=" + token;
+      console.log(document.cookie);
     }
     setIsReady(true);
   }, []);
 
-  const registerUser = async (email: string, password: string, userName : string) => {
+  const registerUser = async (
+    email: string,
+    password: string,
+    userName: string
+  ) => {
     await registerAPI(email, password, userName)
       //res is the response object returned by registerAPI
       .then((res) => {
@@ -55,8 +59,8 @@ export const UserProvider = ({ children }: Props) => {
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
           setUser(userObj!);
-          toast.success("Login Success!");
-          navigate("/search");
+          toast.success("Account created successfully");
+          navigate("/login");
         }
       })
       .catch((e) => toast.warning("Server error occured"));
@@ -82,15 +86,15 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const isLoggedIn = () => {
-    debugger;
     return !!user;
   };
   const logout = () => {
+    logOutAPI();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
     setToken("");
-    navigate("/");
+    navigate("/login");
   };
 
   //UserContext holds the type defined in UserProfile
