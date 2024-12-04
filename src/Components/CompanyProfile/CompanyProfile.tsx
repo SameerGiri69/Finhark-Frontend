@@ -9,6 +9,8 @@ import { getKeyMetrics } from "../../api";
 import RatioList from "../RatioList/RatioList";
 import Spinner from "../Spinner/Spinner";
 import StockComment from "../StockComment/StockComment";
+import { CommentGet } from "../../Models/CommentGet";
+import { commentGetAPI } from "../../Services/CommentService";
 
 type Props = {};
 const tableConfig = [
@@ -80,6 +82,7 @@ const tableConfig = [
   },
 ];
 const CompanyProfile = (props: Props) => {
+
   const ticker = useOutletContext<string>();
   const [companyData, setCompanyData] = useState<CompanyKeyMetrics>();
   useEffect(() => {
@@ -87,6 +90,7 @@ const CompanyProfile = (props: Props) => {
       const value = await getKeyMetrics(ticker);
       setCompanyData(value?.data[0]);
     };
+   
     getCompanyKeyMetrics();
   }, []);
 
@@ -95,7 +99,7 @@ const CompanyProfile = (props: Props) => {
       {companyData ? (
         <>
           <RatioList data={companyData} config={tableConfig} />
-          <StockComment stockSymbol={ticker}/>
+          <StockComment stockSymbol={ticker} />
         </>
       ) : (
         <Spinner />

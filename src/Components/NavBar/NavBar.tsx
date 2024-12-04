@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.png";
 import { Link } from "react-router-dom";
-import { useAuth } from "../Context/useAuth";
+import { useAuth } from "../../Context/useAuth";
 interface Props {}
 
 const NavBar = (props: Props) => {

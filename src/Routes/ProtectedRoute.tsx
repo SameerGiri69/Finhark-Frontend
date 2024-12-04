@@ -5,7 +5,6 @@ import { useAuth } from "../Context/useAuth";
 type Props = { children: React.ReactNode };
 
 const ProtectedRoute = ({ children }: Props) => {
-  debugger;
   const location = useLocation();
   const { isLoggedIn } = useAuth();
   return isLoggedIn() ? (
