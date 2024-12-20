@@ -4,6 +4,14 @@ import ListPortfolio from "../../Components/Portfolio/ListPortfolio/ListPortfoli
 import CardList from "../../Components/CardList/CardList";
 import { CompanySearch } from "../../../company";
 import { searchCompanies } from "../../api";
+import { portfolioGet } from "../../Models/Portfolio";
+import {
+  portfolioAddAPI,
+  portfolioDeleteAPI,
+  portfolioGetAPI,
+} from "../../Services/PortfolioService";
+import { toast } from "react-toastify";
+import { removeToast } from "react-toastify/dist/core/store";
 
 interface Props {}
 
@@ -11,8 +19,24 @@ const SearchPage = (props: Props) => {
   const [search, setSearch] = useState<string>("");
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState<string>("");
-  const [portfolioValues, setPortfolioValues] = useState<string[]>([]);
+  const [portfolioValues, setPortfolioValues] = useState<portfolioGet[] | null>(
+    []
+  );
 
+  const getPortfolio = () => {
+    portfolioGetAPI()
+      .then((res) => {
+        if (res?.data) {
+          setPortfolioValues(res?.data);
+        }
+      })
+      .catch((e) => {
+        toast.warning("Could not get portfolio values!");
+      });
+  };
+  useEffect(() => {
+    getPortfolio();
+  }, []);
   const onClick = async (e: SyntheticEvent) => {
     const result = await searchCompanies(search);
 
@@ -37,23 +61,33 @@ const SearchPage = (props: Props) => {
   // },[search])
   const onPortfolioCreate = (e: any) => {
     e.preventDefault();
-    const exists = portfolioValues.find((value) => value === e.target[0].value);
-    if (exists) return;
-    const updatedPortfolio = [...portfolioValues, e.target[0].value];
-    setPortfolioValues(updatedPortfolio);
+    portfolioAddAPI(e.target[0].value)
+      .then((res) => {
+        if (res?.status == 204) {
+          toast.success("Stock added to portfolio!");
+          getPortfolio();
+        }
+      })
+      .catch((e) => {
+        toast.warning("Could not create portfolio");
+      });
   };
-  const onProtfolioDelete = (e: any) => {
+  const onProtfolioDelete = async (e: any) => {
     e.preventDefault();
-    const removed = portfolioValues.filter((value) => {
-      return value !== e.target[0].value;
-    });
-    setPortfolioValues(removed);
+    debugger;
+    const res = await portfolioDeleteAPI(e.target[0].value);
+    if (res?.status === 200) {
+      toast.success("Deleted successfully");
+      getPortfolio();
+    } else {
+      toast.warning("could not delete stock");
+    }
   };
   return (
     <div className="App">
       <Search search={search} handleChange={handleChange} onClick={onClick} />
       <ListPortfolio
-        portfolioValues={portfolioValues}
+        portfolioValues={portfolioValues!}
         onPortfolioDelete={onProtfolioDelete}
       />
       {serverError && <h1>{serverError}</h1>}
