@@ -8,10 +8,16 @@ const api = "http://localhost:5117/api/";
 
 export const loginAPI = async (email: string, password: string) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "account/login", {
-      Email: email,
-      Password: password,
-    });
+    const data = await axios.post<UserProfileToken>(
+      api + "account/login",
+      {
+        Email: email,
+        Password: password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     return data;
   } catch (error) {
     handleError(error);
